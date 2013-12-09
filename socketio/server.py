@@ -128,8 +128,10 @@ class SocketIOServer(WSGIServer):
 
         socket = self.sockets.get(sessid)
 
-        if sessid and not socket:
-            return None  # you ask for a session that doesn't exist!
+        # commenting this two lines fix https://github.com/abourget/gevent-socketio/issues/132
+        # https://github.com/getpenelope/gevent-socketio/commit/6c80c17705c9a1b3adcb0f99abde1c4d369c337b
+#        if sessid and not socket: 
+#            return None  # you ask for a session that doesn't exist!
         if socket is None:
             socket = Socket(self, self.config)
             self.sockets[socket.sessid] = socket
